@@ -1867,15 +1867,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  created: function created() {
+    this.getpizzas();
+  },
   data: function data() {
     return {
-      listapizzas: [{
-        'id': 1,
-        'name': 'Peperoni',
-        'imagen': '',
-        'ingredientes': 'queso, tomate, atun, peperoni'
-      }],
+      totalprecio: '',
+      listapizzas: [],
       pedidopizza: []
     };
   },
@@ -1887,21 +1919,24 @@ __webpack_require__.r(__webpack_exports__);
       var elemento = {
         id: tipopizza.id,
         name: tipopizza.name,
-        cantidad: 1
+        cantidad: 1,
+        precio: tipopizza.precio
       };
       this.pedidopizza.push(elemento);
     },
     confirmarpedido: function confirmarpedido() {
       alert('Confirmar pedido');
     },
-    eliminarlinea: function eliminarlinea(id) {
-      for (var i = 0; i < this.pedidopizza.length; i++) {
-        var elemento = this.pedidopizza[i];
+    eliminarlinea: function eliminarlinea(index) {
+      this.pedidopizza.splice(index, 1);
+    },
+    getpizzas: function getpizzas() {
+      var _this = this;
 
-        if (elemento.id == id) {
-          this.pedidopizza.splice(i, 1);
-        }
-      }
+      var urllistarpizza = 'listarpizza';
+      axios.get(urllistarpizza).then(function (response) {
+        _this.listapizzas = response.data;
+      });
     }
   }
 });
@@ -1919,6 +1954,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+var _mounted$props$mounte;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1940,20 +1979,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['lineapedido'],
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_mounted$props$mounte = {
   mounted: function mounted() {
-    console.log('Component mounted.s');
+    this.$emit('totalprecio', this.cestaTotal());
   },
-  methods: {
-    confirmarpedido: function confirmarpedido() {
-      alert('Confirmar pedido');
-    },
-    eliminarlinea: function eliminarlinea(id) {
-      this.$emit('new', id);
+  props: ['lineapedido']
+}, _defineProperty(_mounted$props$mounte, "mounted", function mounted() {
+  console.log('Component mounted.s');
+}), _defineProperty(_mounted$props$mounte, "methods", {
+  confirmarpedido: function confirmarpedido() {
+    alert('Confirmar pedido');
+  },
+  eliminarlinea: function eliminarlinea() {
+    this.$emit('delete');
+  }
+}), _defineProperty(_mounted$props$mounte, "computed", {
+  cestaTotal: function cestaTotal() {
+    var suma = 0;
+
+    if (!this.pedidopizza) {
+      for (key in this.pedidopizza) {
+        suma = suma + this.pedidopizza[key].cantidad * this.pedidopizza[key].precio;
+      }
+
+      return suma;
+    } else {
+      return '';
     }
   }
-});
+}), _mounted$props$mounte);
 
 /***/ }),
 
@@ -1979,6 +2042,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['tipopizza'],
   data: function data() {},
@@ -1986,10 +2053,11 @@ __webpack_require__.r(__webpack_exports__);
     console.log('Component mounted.');
   },
   methods: {
-    sumarpedido: function sumarpedido(idpizza, name) {
+    sumarpedido: function sumarpedido(idpizza, name, precio) {
       var tipopizza = {
         id: idpizza,
-        name: name
+        name: name,
+        precio: precio
       };
       this.$emit('new', tipopizza);
     }
@@ -2031,6 +2099,11 @@ Vue.component('pedido-componente', __webpack_require__(/*! ./components/PedidoCo
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.filter('moneda', function (value) {
+  if (!value) return '';
+  value = value.toString();
+  return value + "€";
+});
 var app = new Vue({
   el: '#app'
 });
@@ -37697,10 +37770,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c(
-      "div",
-      { staticClass: "col-md-8 col-md-offset-2" },
-      [
+    _c("div", { staticClass: "col-8 col-md-offset-2" }, [
+      _c(
+        "div",
+        { staticClass: "row" },
         _vm._l(_vm.listapizzas, function(tipopizza) {
           return _c("pizza-component", {
             key: tipopizza.id,
@@ -37708,42 +37781,100 @@ var render = function() {
             on: { new: _vm.addpizza }
           })
         }),
-        _vm._v(" "),
-        _c(
-          "form",
-          {
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.confirmarpedido()
-              }
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.confirmarpedido()
             }
-          },
-          [
-            _c("h2", [_vm._v("Lista de Pedido")]),
+          }
+        },
+        [
+          _c("h2", [_vm._v("Lista de Pedido")]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._l(_vm.pedidopizza, function(lineapedido, index) {
+            return _c("pedido-componente", {
+              key: lineapedido.id,
+              attrs: { lineapedido: lineapedido },
+              on: {
+                delete: function($event) {
+                  return _vm.eliminarlinea(index)
+                },
+                totalprecio: function($event) {
+                  _vm.totalprecio = $event
+                }
+              }
+            })
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "row g-5" }, [
+            _c("div", { staticClass: "col-2" }),
             _vm._v(" "),
-            _vm._l(_vm.pedidopizza, function(lineapedido) {
-              return _c("pedido-componente", {
-                key: lineapedido.id,
-                attrs: { lineapedido: lineapedido },
-                on: { new: _vm.eliminarlinea }
-              })
-            }),
+            _vm._m(1),
             _vm._v(" "),
-            _c(
-              "button",
-              { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-              [_vm._v("Confirmar Pedido234")]
-            )
-          ],
-          2
-        )
-      ],
-      2
-    )
+            _c("div", { staticClass: "col-2" }, [
+              _c("label", { staticClass: "col-form-label" }, [
+                _vm._v(" " + _vm._s(_vm._f("moneda")(_vm.totalprecio)))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-2" })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+            [_vm._v("Confirmar Pedido")]
+          )
+        ],
+        2
+      )
+    ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row g-5" }, [
+      _c("div", { staticClass: "col-2" }, [
+        _c("label", { staticClass: "col-form-label" }, [_vm._v("PIzza")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-2" }, [
+        _c("label", { staticClass: "col-form-label" }, [_vm._v("Unidades")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-2" }, [
+        _c("label", { staticClass: "col-form-label" }, [_vm._v("PVP Unidad")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-2" }, [
+        _c("label", { staticClass: "col-form-label" }, [_vm._v("Total")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-2" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-4" }, [
+      _c("label", { staticClass: "col-form-label" }, [
+        _c("b", [_vm._v("Total del pedido:")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -37766,20 +37897,34 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "mb-4 row" }, [
-    _c(
-      "label",
-      { staticClass: "col-sm-6 col-form-label", attrs: { for: "staticEmail" } },
-      [_vm._v(_vm._s(_vm.lineapedido.name))]
-    ),
+  return _c("div", { staticClass: "row g-5" }, [
+    _c("div", { staticClass: "col-2" }, [
+      _c("label", { staticClass: "col-form-label" }, [
+        _vm._v(_vm._s(_vm.lineapedido.name))
+      ])
+    ]),
     _vm._v(" "),
-    _c("div", { staticClass: "col-sm-3" }, [
+    _c("div", { staticClass: "col-2" }, [
       _c("input", { attrs: { type: "hidden", id: _vm.lineapedido.id } }),
       _vm._v(" "),
       _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model.lazy",
+            value: _vm.lineapedido.cantidad,
+            expression: "lineapedido.cantidad",
+            modifiers: { lazy: true }
+          }
+        ],
         staticClass: "form-control",
         attrs: { type: "text", id: "cantidad" },
-        domProps: { value: _vm.lineapedido.cantidad }
+        domProps: { value: _vm.lineapedido.cantidad },
+        on: {
+          change: function($event) {
+            return _vm.$set(_vm.lineapedido, "cantidad", $event.target.value)
+          }
+        }
       }),
       _vm._v(" "),
       _c("div", { staticClass: "invalid-feedback" }, [
@@ -37787,48 +37932,66 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-secondary",
-        attrs: { type: "button" },
-        on: {
-          click: function($event) {
-            return _vm.eliminarlinea(_vm.lineapedido.id)
-          }
-        }
-      },
-      [
-        _c(
-          "svg",
-          {
-            staticClass: "bi bi-cart-x",
-            attrs: {
-              xmlns: "http://www.w3.org/2000/svg",
-              width: "16",
-              height: "16",
-              fill: "currentColor",
-              viewBox: "0 0 16 16"
-            }
-          },
-          [
-            _c("path", {
-              attrs: {
-                d:
-                  "M7.354 5.646a.5.5 0 1 0-.708.708L7.793 7.5 6.646 8.646a.5.5 0 1 0 .708.708L8.5 8.207l1.146 1.147a.5.5 0 0 0 .708-.708L9.207 7.5l1.147-1.146a.5.5 0 0 0-.708-.708L8.5 6.793 7.354 5.646z"
-              }
-            }),
-            _vm._v(" "),
-            _c("path", {
-              attrs: {
-                d:
-                  "M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-              }
-            })
-          ]
+    _c("div", { staticClass: "col-2" }, [
+      _c("label", { staticClass: "col-form-label" }, [
+        _vm._v(_vm._s(_vm._f("moneda")(_vm.lineapedido.precio)))
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-2" }, [
+      _c("label", { staticClass: "col-form-label" }, [
+        _vm._v(
+          _vm._s(
+            _vm._f("moneda")(_vm.lineapedido.precio * _vm.lineapedido.cantidad)
+          )
         )
-      ]
-    )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-2" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              return _vm.eliminarlinea()
+            }
+          }
+        },
+        [
+          _c(
+            "svg",
+            {
+              staticClass: "bi bi-cart-x",
+              attrs: {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "16",
+                height: "16",
+                fill: "currentColor",
+                viewBox: "0 0 16 16"
+              }
+            },
+            [
+              _c("path", {
+                attrs: {
+                  d:
+                    "M7.354 5.646a.5.5 0 1 0-.708.708L7.793 7.5 6.646 8.646a.5.5 0 1 0 .708.708L8.5 8.207l1.146 1.147a.5.5 0 0 0 .708-.708L9.207 7.5l1.147-1.146a.5.5 0 0 0-.708-.708L8.5 6.793 7.354 5.646z"
+                }
+              }),
+              _vm._v(" "),
+              _c("path", {
+                attrs: {
+                  d:
+                    "M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+                }
+              })
+            ]
+          )
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -37854,34 +38017,43 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card", staticStyle: { width: "18rem" } }, [
-    _c("img", {
-      staticClass: "card-img-top",
-      attrs: { src: _vm.tipopizza.simagen, alt: "..." }
-    }),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _c("h5", { staticClass: "card-title" }, [
-        _vm._v(_vm._s(_vm.tipopizza.name))
-      ]),
+  return _c("div", { staticClass: "col-sm-4" }, [
+    _c("div", { staticClass: "card" }, [
+      _c("img", {
+        staticClass: "card-img-top",
+        attrs: { src: _vm.tipopizza.simagen, alt: "..." }
+      }),
       _vm._v(" "),
-      _c("p", { staticClass: "card-text" }, [
-        _vm._v(_vm._s(_vm.tipopizza.ingredientes))
-      ]),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-primary",
-          attrs: { href: "#" },
-          on: {
-            click: function($event) {
-              return _vm.sumarpedido(_vm.tipopizza.id, _vm.tipopizza.name)
+      _c("div", { staticClass: "card-body" }, [
+        _c("h5", { staticClass: "card-title" }, [
+          _vm._v(_vm._s(_vm.tipopizza.name))
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "card-text" }, [
+          _vm._v(_vm._s(_vm.tipopizza.ingredientes) + "\n          "),
+          _c("span", { staticClass: "badge bg-light text-dark" }, [
+            _vm._v(_vm._s(_vm.tipopizza.precio) + " Euros")
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { href: "#" },
+            on: {
+              click: function($event) {
+                return _vm.sumarpedido(
+                  _vm.tipopizza.id,
+                  _vm.tipopizza.name,
+                  _vm.tipopizza.precio
+                )
+              }
             }
-          }
-        },
-        [_vm._v("Pedir " + _vm._s(_vm.tipopizza.id) + " ")]
-      )
+          },
+          [_vm._v("Pedir " + _vm._s(_vm.tipopizza.id) + " ")]
+        )
+      ])
     ])
   ])
 }

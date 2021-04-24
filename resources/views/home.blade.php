@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-      <listadopizza-component></listadopizza-component>
+      <listadopizza-component ></listadopizza-component>
         
             <div class="card">
                 <div class="card-header">{{ __('Pedidos') }}</div>

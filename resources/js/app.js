@@ -27,6 +27,12 @@ Vue.component('pedido-componente', require('./components/PedidoComponente.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.filter('moneda',function(value){
+    if(!value) return ''
+    value = value.toString();
+    return value + "€";
+})
+
 const app = new Vue({
     el: '#app',
 });

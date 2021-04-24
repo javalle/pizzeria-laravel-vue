@@ -1,26 +1,38 @@
 <template>
-
-   <div class="mb-4 row">
-    <label for="staticEmail" class="col-sm-6 col-form-label">{{ lineapedido.name }}</label>
-    <div class="col-sm-3">
+   <div class="row g-5">
+     <div class="col-2">
+      <label  class="col-form-label">{{ lineapedido.name }}</label>
+     </div>
+    <div class="col-2">
       <input type="hidden" v-bind:id="lineapedido.id">
-      <input type="text"  class="form-control" id="cantidad" v-bind:value="lineapedido.cantidad">
+      <input type="text"  class="form-control" id="cantidad"  v-model.lazy="lineapedido.cantidad" >
       <div class="invalid-feedback">
         Solo numeros
       </div>
     </div>
-     <button type="button" class="btn btn-secondary" v-on:click="eliminarlinea(lineapedido.id)">
+    <div class="col-2">
+      <label  class="col-form-label">{{ lineapedido.precio | moneda}}</label>  
+    </div>
+    <div class="col-2">
+      <label class="col-form-label">{{ lineapedido.precio * lineapedido.cantidad | moneda}}</label>
+    </div>
+    <div class="col-2">
+     <button type="button" class="btn btn-secondary" v-on:click="eliminarlinea()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-x" viewBox="0 0 16 16">
   <path d="M7.354 5.646a.5.5 0 1 0-.708.708L7.793 7.5 6.646 8.646a.5.5 0 1 0 .708.708L8.5 8.207l1.146 1.147a.5.5 0 0 0 .708-.708L9.207 7.5l1.147-1.146a.5.5 0 0 0-.708-.708L8.5 6.793 7.354 5.646z"></path>
   <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
 </svg>
               </button>
+    </div>
   </div>
  
 </template>
  
 <script>
     export default {
+       mounted(){
+         this.$emit('totalprecio',this.cestaTotal());
+       },
         props:['lineapedido'],
         mounted() {
             console.log('Component mounted.s')
@@ -29,10 +41,22 @@
           confirmarpedido(){
             alert('Confirmar pedido')
           },  
-          eliminarlinea(id){
-            this.$emit('new',id);
+          eliminarlinea(){
+            this.$emit('delete');
           }
         },
-        
+        computed: {
+        cestaTotal: function(){
+            let suma = 0;
+            if(!this.pedidopizza){
+                for(key in this.pedidopizza){
+                    suma = suma+(this.pedidopizza[key].cantidad * this.pedidopizza[key].precio);
+                }
+                return suma;
+            }else{
+                return '';
+            }
+        }
+    },
     }
 </script>

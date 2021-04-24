@@ -1,20 +1,53 @@
 <template>
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <pizza-component 
+        <div class="col-8 col-md-offset-2">
+            <div class="row">
+                <pizza-component 
                 v-for="tipopizza in listapizzas"
                 :key="tipopizza.id"
                 :tipopizza="tipopizza"
                 @new="addpizza">
-            </pizza-component>
+                </pizza-component>
+            </div>
+
             <form v-on:submit.prevent="confirmarpedido()">
                 <h2>Lista de Pedido</h2>
-                <pedido-componente v-for="lineapedido in pedidopizza"
+                <div class="row g-5">
+     <div class="col-2">
+      <label  class="col-form-label">PIzza</label>
+     </div>
+    <div class="col-2">
+      <label  class="col-form-label">Unidades</label>
+    </div>
+    <div class="col-2">
+      <label  class="col-form-label">PVP Unidad</label>  
+    </div>
+    <div class="col-2">
+      <label class="col-form-label">Total</label>
+    </div>
+    <div class="col-2">
+    </div>
+  </div>
+                <pedido-componente v-for="(lineapedido, index) in pedidopizza"
                     :key="lineapedido.id" 
                     :lineapedido="lineapedido"
-                    @new="eliminarlinea">
+                    @delete="eliminarlinea(index)"
+                    @totalprecio='totalprecio=$event'>
                 </pedido-componente>
-                <button type="submit"  class="btn btn-primary">Confirmar Pedido234</button>
+                                <div class="row g-5">
+     <div class="col-2">
+      
+     </div>
+    <div class="col-4">
+        <label class="col-form-label"><b>Total del pedido:</b></label>
+    </div>
+    <div class="col-2">
+      <label class="col-form-label"> {{totalprecio | moneda}}</label>
+    </div>
+    <div class="col-2">
+    </div>
+  </div>
+                <button type="submit"  class="btn btn-primary">Confirmar Pedido</button>
             </form>  
         </div>
     </div>
@@ -22,14 +55,13 @@
 
 <script>
 export default {
+    created: function(){
+        this.getpizzas();
+    },
     data(){
         return {
-            listapizzas:[{
-                'id':  1,
-                'name': 'Peperoni',
-                'imagen': '',
-                'ingredientes': 'queso, tomate, atun, peperoni'
-            }],
+            totalprecio:'',
+            listapizzas:[],
             pedidopizza:[],
         }
     },
@@ -41,22 +73,25 @@ export default {
             let elemento = {
                 id: tipopizza.id,
                 name: tipopizza.name,
-                cantidad: 1
+                cantidad: 1,
+                precio: tipopizza.precio,
                 };
             this.pedidopizza.push(elemento);
        },
         confirmarpedido(){
             alert('Confirmar pedido')
           },  
-        eliminarlinea(id){
-            for( var i=0; i< this.pedidopizza.length;i++){
-                var elemento = this.pedidopizza[i];
-                if(elemento.id == id){
-                    this.pedidopizza.splice(i,1);
-                }
-            }
-        }
-        
+        eliminarlinea(index){
+                    this.pedidopizza.splice(index,1);
+         
+        },
+        getpizzas:  function(){
+            var urllistarpizza  = 'listarpizza';
+            axios.get(urllistarpizza).then(response =>{
+                this.listapizzas = response.data
+            });
+        },
     },
+
     }
 </script>
