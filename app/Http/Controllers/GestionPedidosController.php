@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Model\GestionPedidos;
-use App\Model\GestionPedidosLinea;
-use App\User;
+use App\Models\GestionPedidos;
+use App\Models\GestionPedidosLinea;
+use App\Models\User;
 use App\Http\Controllers\Auth;
 
 class GestionPedidosController extends Controller
@@ -41,17 +41,17 @@ class GestionPedidosController extends Controller
     {
         $idusuario = auth()->user()->id;
         if($idusuario){
-            $pedidos = GestionPedidos();
+            $pedidos = new GestionPedidos();
             $pedidos->user_id = $idusuario;
             $pedidos->save();
             $idpedido = $pedidos->id;
-
-            foreach($request as $linea){
-                $pedidolinea = GestionPedidosLinea();
+            $arrayobjeto = json_decode($request);
+            foreach($arrayobjeto as $linea){
+                $pedidolinea = new GestionPedidosLinea();
                 $pedidolinea->idPedido = $idpedido;
-                $pedidolinea->idPizza = $linea->id;
-                $pedidolinea->cantidad = $linea->cantidad;
-                $pedidolinea->precio = $linea->precio;
+                $pedidolinea->idPizza = $linea['id'];
+                $pedidolinea->cantidad = $linea['cantidad'];
+                $pedidolinea->precio = $linea['precio'];
                 $pedidolinea->save();
             }
         }
