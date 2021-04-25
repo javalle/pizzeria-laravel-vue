@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call(IngredientesSeeder::class);
         $this->call(PizzasSeeder::class);
-        
+        $this->call(UserTableSeeder::class);
 
     }
 }

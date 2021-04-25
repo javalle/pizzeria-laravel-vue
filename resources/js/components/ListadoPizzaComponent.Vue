@@ -79,7 +79,12 @@ export default {
             this.pedidopizza.push(elemento);
        },
         confirmarpedido(){
-            alert('Confirmar pedido')
+            var urllistarpizza  = 'controlpedidos';
+            axios.post(urllistarpizza,this.pedidopizza).then(response =>{
+                this.pedidopizza = [];
+                  alert('Pedido Confirmado');
+            });
+          
           },  
         eliminarlinea(index){
                     this.pedidopizza.splice(index,1);

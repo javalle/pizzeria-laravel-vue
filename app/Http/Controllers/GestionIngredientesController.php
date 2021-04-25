@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Pizzas;
+use App\Models\Ingredientes;
 
-class GestionarPizzasController extends Controller
+class GestionIngredientesController extends Controller
 {
+
     public function __construct(){
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +19,7 @@ class GestionarPizzasController extends Controller
      */
     public function index()
     {
-        return Pizzas::get();
+        return Ingredientes::get();
     }
 
     /**
@@ -28,24 +30,10 @@ class GestionarPizzasController extends Controller
      */
     public function store(Request $request)
     {
-        $pizza = new Pizzas();
-        $pizza->name = $request->name;
-        $pizza->precio = $request->precio;
-        $pizza->imagen = $request->imagen;
-        $pizza->ingredientes = $request->ingredientes;
-        $pizza->save();
-        return $pizza;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $ingredientes = new Ingredientes();
+        $ingredientes->name = $request->name;
+        $ingredientes->save();
+        return $ingredientes;
     }
 
     /**
@@ -57,13 +45,10 @@ class GestionarPizzasController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $pizzas = Pizzas::find($id);
-       $pizzas->name = $request->name;
-       $pizzas->precio = $request->precio;
-       $pizzas->imagen = $request->imagen;
-       $pizzas->ingredientes = $request->ingredientes;
-       $pizzas->save();
-       return $pizzas;
+       $ingredientes = Ingredientes::find($id);
+       $ingredientes->name = $request->name;
+       $ingredientes->save();
+       return $ingredientes;
     }
 
     /**
@@ -74,8 +59,9 @@ class GestionarPizzasController extends Controller
      */
     public function destroy($id)
     {
-       $pizzas = Pizzas::find($id);
-       $pizzas->delete();
+       $ingredientes = Ingredientes::find($id);
+       $ingredientes->delete();
        return '';
     }
+
 }

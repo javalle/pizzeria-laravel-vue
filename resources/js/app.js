@@ -6,6 +6,9 @@
 
 require('./bootstrap');
 
+import Vue from 'vue';
+import VueCookies from 'vue-cookies';
+
 window.Vue = require('vue').default;
 
 /**
@@ -18,9 +21,15 @@ window.Vue = require('vue').default;
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
 Vue.component('listadopizza-component', require('./components/ListadoPizzaComponent.vue').default);
 Vue.component('pizza-component', require('./components/PizzaComponent.vue').default);
 Vue.component('pedido-componente', require('./components/PedidoComponente.vue').default);
+Vue.component('listadogestionpizza-component', require('./components/ListadoGestionPizza.vue').default);
+Vue.component('lisstadogestionpedido-component',require('./components/ListadoGestionPedidos.vue').default);
+Vue.component('listadogestioningredientes-component',require('./components/ListadoGestionIngredientes.vue').default);
+Vue.use(VueCookies);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
