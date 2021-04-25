@@ -1,5 +1,5 @@
 <template>
-    
+<div class="row">
 <table class="table">
   <thead>
     <tr>
@@ -11,15 +11,17 @@
     </tr>
   </thead>
   <tbody>
-    <tr v-for="tipopedido in listaingrediente"
+    <tr v-for="tipopedido in listapedidos"
                 :key="tipopedido.id">
       <th scope="row">{{ tipopedido.id }}</th>
       <td>{{ tipopedido.name }}</td>
+      <td>{{ tipopedido.namepizza }}</td>
       <td>{{ tipopedido.cantidad }}</td>
-      <td>{{ tipopedido.create_at }}</td>
+      <td>{{ tipopedido.created_at }}</td>
     </tr>
   </tbody>
 </table>
+</div>
 </template>
 <script>
 export default {

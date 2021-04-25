@@ -24,10 +24,10 @@ class GestionPedidosController extends Controller
     {
        
         $pedidos = DB::table('gestion_pedidos')
-                    ->join('users','gestion_pedidos.users_id','=','users.id')
+                    ->join('users','gestion_pedidos.user_id','=','users.id')
                     ->join('gestion_pedidos_lineas','gestion_pedidos_lineas.idPedido','=','gestion_pedidos.id')
-                    ->join('gestion_pedidos_lineas','gestion_pedidos_lineas.idPizza','=','pizzas.id')
-                    ->select('gestion_pedidos.id','user.name','pizza.name','gestion_pedidos_lineas.cantidad','gestion_pedidos.create_at')
+                    ->join('pizzas','gestion_pedidos_lineas.idPizza','=','pizzas.id')
+                    ->select('gestion_pedidos.id','users.name','pizzas.name as namepizza','gestion_pedidos_lineas.cantidad','gestion_pedidos.created_at')
                     ->get();
         return $pedidos;
     }

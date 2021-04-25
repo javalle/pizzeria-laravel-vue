@@ -1,55 +1,48 @@
 <template>
-    <div class="row">
-        <div class="col-12 col-md-offset-2">
-            <div class="row">
-                <a href="#" v-on:click="crearIngrediente()" class="btn btn-primary">Crear Ingrediente</a>
-            </div>
-            <div class="row">
-
-               <div class="col-sm-4"   v-for="tipoingrediente in listaingrediente"
+<div class="row">
+    <div class="col-12 col-md-offset-2">
+        <div class="row">
+            <a href="#" v-on:click="crearIngrediente()" class="btn btn-primary">Crear Ingrediente</a>
+        </div>
+        <div class="row">
+            <div class="col-sm-4"   v-for="tipoingrediente in listaingrediente"
                 :key="tipoingrediente.id"
                 :tipoingrediente="tipoingrediente">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ tipoingrediente.name }}</h5>
-                            <a href="#" v-on:click="borrarIngrediente(tipoingrediente)" class="btn btn-danger">Borrar </a>
-                        </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tipoingrediente.nombre }}</h5>
+                         <a href="#" v-on:click="borrarIngrediente(tipoingrediente)" class="btn btn-danger">Borrar </a>
                     </div>
                 </div>
-            
-                <div class="row" v-if="valor == 'editable'">
-                     <div class="row g-9">
-     <div class="col-6">
-      <label class="col-form-label">Nombre </label>
-     </div>
-     </div>
-                    <div class="row g-9">
-     <div class="col-2">
-      <input class="form-control"  v-model.lazy="ingredienteeditada.name">
-     </div>
-    <div class="col-2">
-
-<button type="button" class="btn btn-success"v-on:click="salvaringrediente()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"></path>
-</svg>
-              </button>
-              
-        <button type="button" class="btn btn-secondary"v-on:click="eliminaringrediente()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"></path>
-  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"></path>
-</svg>
-              </button>
-     
-    </div>
-  </div>
-
+            </div>
+        </div>
+        <div class="row" v-if="valor == 'editable'">
+            <div class="row g-9">
+                <div class="col-6">
+                    <label class="col-form-label">Nombre </label>
+                </div>          
+            </div>
+            <div class="row g-9">
+                <div class="col-6">
+                    <input class="form-control"  v-model.lazy="ingredienteeditada.name">
                 </div>
-
+            <div class="col-2">
+                <button type="button" class="btn btn-success"v-on:click="salvaringrediente()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"></path>
+                    </svg>
+                </button>
+                <button type="button" class="btn btn-secondary"v-on:click="eliminaringrediente()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"></path>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"></path>
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
+</div>
+</div>
 </template>
 <script>
 export default {
@@ -60,7 +53,7 @@ export default {
         return {
            listaingrediente:[],
            ingredienteeditada:[{
-               name: '',
+               nombre: '',
             }],
            valor: 'noeditable',
            creacion: 'no',
@@ -77,7 +70,7 @@ export default {
             
             let elemento = {
                 id: tipopizza.id,
-                name: tipopizza.name,
+                nombre: tipopizza.nombre,
             };
             this.pizzaeditada = elemento;
             this.valor = 'editable';
@@ -87,14 +80,14 @@ export default {
       
             if(this.creacion == 'si'){
                 let valores = {
-                    name: this.ingredienteeditada.name,
+                    nombre: this.ingredienteeditada.nombre,
                 };
                 axios.post('controlingredientes', valores
                      ).then((response) => {
                              console.log (response);
                               let nuevapizza  = {
                                     id: response.data.id,
-                                    name: response.data.name,
+                                    nombre: response.data.nombre,
                                     }
                                     this.listaingrediente.push(nuevapizza);
                          });
@@ -102,31 +95,31 @@ export default {
             }else{
 
             let valores = {
-                    name: this.ingredienteeditada.name,
+                    nombre: this.ingredienteeditada.nombre,
                 };
                 axios.put('controlingredientes/'+this.ingredienteeditada.id, valores
                      ).then((response) => {
                              console.log (response);
                               let nuevapizza  = {
                                     id: response.data.id,
-                                    name: response.data.name,
+                                    nombre: response.data.nombre,
                                     }
                                     this.ingredientepizzas.forEach(element => {
                                         if(element.id === nuevapizza.id){
-                                            element.name = nuevapizza.name;
+                                            element.nombre = nuevapizza.nombre;
                                         }
                                     });
                                     
                          });
             } 
-            this.ingredienteeditada.name='';
+            this.ingredienteeditada.nombre='';
             this.valor = 'noeditable';
             this.creacion = 'no';
             return '';
         },
         eliminaringrediente: function(){
             this.valor = 'noeditable';
-            this.pizzaeditada.name='';
+            this.pizzaeditada.nombre='';
             this.creacion = 'no';
             return '';
         },

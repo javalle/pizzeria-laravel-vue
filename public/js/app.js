@@ -1891,13 +1891,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   created: function created() {
     this.getingrediente();
@@ -1906,7 +1899,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       listaingrediente: [],
       ingredienteeditada: [{
-        name: ''
+        nombre: ''
       }],
       valor: 'noeditable',
       creacion: 'no'
@@ -1924,7 +1917,7 @@ __webpack_require__.r(__webpack_exports__);
     editarIngrediente: function editarIngrediente(tipopizza) {
       var elemento = {
         id: tipopizza.id,
-        name: tipopizza.name
+        nombre: tipopizza.nombre
       };
       this.pizzaeditada = elemento;
       this.valor = 'editable';
@@ -1935,44 +1928,44 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.creacion == 'si') {
         var valores = {
-          name: this.ingredienteeditada.name
+          nombre: this.ingredienteeditada.nombre
         };
         axios.post('controlingredientes', valores).then(function (response) {
           console.log(response);
           var nuevapizza = {
             id: response.data.id,
-            name: response.data.name
+            nombre: response.data.nombre
           };
 
           _this2.listaingrediente.push(nuevapizza);
         });
       } else {
         var _valores = {
-          name: this.ingredienteeditada.name
+          nombre: this.ingredienteeditada.nombre
         };
         axios.put('controlingredientes/' + this.ingredienteeditada.id, _valores).then(function (response) {
           console.log(response);
           var nuevapizza = {
             id: response.data.id,
-            name: response.data.name
+            nombre: response.data.nombre
           };
 
           _this2.ingredientepizzas.forEach(function (element) {
             if (element.id === nuevapizza.id) {
-              element.name = nuevapizza.name;
+              element.nombre = nuevapizza.nombre;
             }
           });
         });
       }
 
-      this.ingredienteeditada.name = '';
+      this.ingredienteeditada.nombre = '';
       this.valor = 'noeditable';
       this.creacion = 'no';
       return '';
     },
     eliminaringrediente: function eliminaringrediente() {
       this.valor = 'noeditable';
-      this.pizzaeditada.name = '';
+      this.pizzaeditada.nombre = '';
       this.creacion = 'no';
       return '';
     },
@@ -2031,6 +2024,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2065,13 +2060,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -38597,159 +38585,157 @@ var render = function() {
       _c(
         "div",
         { staticClass: "row" },
-        [
-          _vm._l(_vm.listaingrediente, function(tipoingrediente) {
-            return _c(
-              "div",
-              {
-                key: tipoingrediente.id,
-                staticClass: "col-sm-4",
-                attrs: { tipoingrediente: tipoingrediente }
-              },
-              [
-                _c("div", { staticClass: "card" }, [
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("h5", { staticClass: "card-title" }, [
-                      _vm._v(_vm._s(tipoingrediente.name))
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-danger",
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            return _vm.borrarIngrediente(tipoingrediente)
-                          }
-                        }
-                      },
-                      [_vm._v("Borrar ")]
-                    )
-                  ])
-                ])
-              ]
-            )
-          }),
-          _vm._v(" "),
-          _vm.valor == "editable"
-            ? _c("div", { staticClass: "row" }, [
-                _vm._m(0),
-                _vm._v(" "),
-                _c("div", { staticClass: "row g-9" }, [
-                  _c("div", { staticClass: "col-2" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model.lazy",
-                          value: _vm.ingredienteeditada.name,
-                          expression: "ingredienteeditada.name",
-                          modifiers: { lazy: true }
-                        }
-                      ],
-                      staticClass: "form-control",
-                      domProps: { value: _vm.ingredienteeditada.name },
-                      on: {
-                        change: function($event) {
-                          return _vm.$set(
-                            _vm.ingredienteeditada,
-                            "name",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    })
+        _vm._l(_vm.listaingrediente, function(tipoingrediente) {
+          return _c(
+            "div",
+            {
+              key: tipoingrediente.id,
+              staticClass: "col-sm-4",
+              attrs: { tipoingrediente: tipoingrediente }
+            },
+            [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("h5", { staticClass: "card-title" }, [
+                    _vm._v(_vm._s(tipoingrediente.nombre))
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-2" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-success",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.salvaringrediente()
-                          }
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          return _vm.borrarIngrediente(tipoingrediente)
                         }
-                      },
-                      [
-                        _c(
-                          "svg",
-                          {
-                            staticClass: "bi bi-bag-check-fill",
-                            attrs: {
-                              xmlns: "http://www.w3.org/2000/svg",
-                              width: "16",
-                              height: "16",
-                              fill: "currentColor",
-                              viewBox: "0 0 16 16"
-                            }
-                          },
-                          [
-                            _c("path", {
-                              attrs: {
-                                "fill-rule": "evenodd",
-                                d:
-                                  "M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"
-                              }
-                            })
-                          ]
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-secondary",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.eliminaringrediente()
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "svg",
-                          {
-                            staticClass: "bi bi-trash",
-                            attrs: {
-                              xmlns: "http://www.w3.org/2000/svg",
-                              width: "16",
-                              height: "16",
-                              fill: "currentColor",
-                              viewBox: "0 0 16 16"
-                            }
-                          },
-                          [
-                            _c("path", {
-                              attrs: {
-                                d:
-                                  "M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("path", {
-                              attrs: {
-                                "fill-rule": "evenodd",
-                                d:
-                                  "M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                              }
-                            })
-                          ]
-                        )
-                      ]
-                    )
-                  ])
+                      }
+                    },
+                    [_vm._v("Borrar ")]
+                  )
                 ])
               ])
-            : _vm._e()
-        ],
-        2
-      )
+            ]
+          )
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _vm.valor == "editable"
+        ? _c("div", { staticClass: "row" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "row g-9" }, [
+              _c("div", { staticClass: "col-6" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.lazy",
+                      value: _vm.ingredienteeditada.name,
+                      expression: "ingredienteeditada.name",
+                      modifiers: { lazy: true }
+                    }
+                  ],
+                  staticClass: "form-control",
+                  domProps: { value: _vm.ingredienteeditada.name },
+                  on: {
+                    change: function($event) {
+                      return _vm.$set(
+                        _vm.ingredienteeditada,
+                        "name",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-2" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.salvaringrediente()
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "bi bi-bag-check-fill",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          width: "16",
+                          height: "16",
+                          fill: "currentColor",
+                          viewBox: "0 0 16 16"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "fill-rule": "evenodd",
+                            d:
+                              "M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"
+                          }
+                        })
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.eliminaringrediente()
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "bi bi-trash",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          width: "16",
+                          height: "16",
+                          fill: "currentColor",
+                          viewBox: "0 0 16 16"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("path", {
+                          attrs: {
+                            "fill-rule": "evenodd",
+                            d:
+                              "M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                          }
+                        })
+                      ]
+                    )
+                  ]
+                )
+              ])
+            ])
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -38787,26 +38773,30 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("table", { staticClass: "table" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "tbody",
-      _vm._l(_vm.listaingrediente, function(tipopedido) {
-        return _c("tr", { key: tipopedido.id }, [
-          _c("th", { attrs: { scope: "row" } }, [
-            _vm._v(_vm._s(tipopedido.id))
-          ]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(tipopedido.name))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(tipopedido.cantidad))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(tipopedido.create_at))])
-        ])
-      }),
-      0
-    )
+  return _c("div", { staticClass: "row" }, [
+    _c("table", { staticClass: "table" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.listapedidos, function(tipopedido) {
+          return _c("tr", { key: tipopedido.id }, [
+            _c("th", { attrs: { scope: "row" } }, [
+              _vm._v(_vm._s(tipopedido.id))
+            ]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(tipopedido.name))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(tipopedido.namepizza))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(tipopedido.cantidad))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(tipopedido.created_at))])
+          ])
+        }),
+        0
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -38896,7 +38886,7 @@ var render = function() {
                     _c("p", { staticClass: "card-text" }, [
                       _vm._v(
                         _vm._s(tipopizza.ingredientes) +
-                          "\n                            "
+                          "\r\n                            "
                       ),
                       _c("span", { staticClass: "badge bg-light text-dark" }, [
                         _vm._v(_vm._s(tipopizza.precio) + " Euros")
@@ -39127,7 +39117,7 @@ var staticRenderFns = [
         _c("label", { staticClass: "col-form-label" }, [_vm._v("Precio")])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-5" }, [
+      _c("div", { staticClass: "col-2" }, [
         _c("label", { staticClass: "col-form-label" }, [
           _vm._v(" Ingredientes")
         ])

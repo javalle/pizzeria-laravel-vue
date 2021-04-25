@@ -31,7 +31,7 @@ class GestionIngredientesController extends Controller
     public function store(Request $request)
     {
         $ingredientes = new Ingredientes();
-        $ingredientes->name = $request->name;
+        $ingredientes->nombre = $request->nombre;
         $ingredientes->save();
         return $ingredientes;
     }
@@ -46,7 +46,7 @@ class GestionIngredientesController extends Controller
     public function update(Request $request, $id)
     {
        $ingredientes = Ingredientes::find($id);
-       $ingredientes->name = $request->name;
+       $ingredientes->nombre = $request->nombre;
        $ingredientes->save();
        return $ingredientes;
     }
