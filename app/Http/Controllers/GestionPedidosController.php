@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\GestionPedidos;
 use App\Models\GestionPedidosLinea;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Auth;
 
 class GestionPedidosController extends Controller
@@ -41,21 +42,32 @@ class GestionPedidosController extends Controller
     {
         $idusuario = auth()->user()->id;
         if($idusuario){
-            $pedidos = new GestionPedidos();
-            $pedidos->user_id = $idusuario;
-            $pedidos->save();
-            $idpedido = $pedidos->id;
-            $arrayobjeto = json_decode($request);
-            foreach($arrayobjeto as $linea){
-                $pedidolinea = new GestionPedidosLinea();
-                $pedidolinea->idPedido = $idpedido;
-                $pedidolinea->idPizza = $linea['id'];
-                $pedidolinea->cantidad = $linea['cantidad'];
-                $pedidolinea->precio = $linea['precio'];
-                $pedidolinea->save();
+            try {
+                DB::beginTransaction();
+                $pedidos = new GestionPedidos();
+                $pedidos->user_id = $idusuario;
+                $pedidos->save();
+                $idpedido = $pedidos->id;
+               
+                
+               foreach($request->all() as $linea){
+                    $pedidolinea = new GestionPedidosLinea();
+                    $pedidolinea->idPedido = $idpedido;
+                    $pedidolinea->idPizza = $linea['id'];
+                    $pedidolinea->cantidad = $linea['cantidad'];
+                    $pedidolinea->precio = $linea['precio'];
+                    $pedidolinea->save();
+                }    // database queries here
+                DB::commit();
+                return 'OK';
+            } catch (\PDOException $e) {
+                // Woopsy
+                DB::rollBack();
+                return 'ERROR';
             }
+            
         }
-        return '';
+ 
   
     }
 }
